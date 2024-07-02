@@ -16,8 +16,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI UMCstudyAPI() {
         Info info = new Info()
-                .title("Friend API")
-                .description("부경대학교 매칭 시스템을 위한 API 명세서입니다.")
+                .title("TodaysMenu API")
+                .description("부경대학교 IDBLAB TodaysMenu API 명세서입니다.")
                 .version("1.0.0");
 
         String jwtSchemeName = "JWT TOKEN";
