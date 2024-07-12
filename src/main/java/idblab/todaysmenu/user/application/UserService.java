@@ -30,7 +30,19 @@ public class UserService {
             throw new IllegalArgumentException("Passwords do not match.");
         }
 
+        UserExercise mock = UserExercise.builder()
+                .wk_hg_act(signupRequest.getHighIntensityActivity().getTimesPerWeek())
+                .dy_hg_act_hr(signupRequest.getHighIntensityActivity().getHoursPerDay())
+                .dy_hg_act_mn(signupRequest.getHighIntensityActivity().getMinutesPerDay())
+                .wk_md_act(signupRequest.getModerateIntensityActivity().getTimesPerWeek())
+                .dy_md_act_hr(signupRequest.getModerateIntensityActivity().getHoursPerDay())
+                .dy_md_act_mn(signupRequest.getModerateIntensityActivity().getMinutesPerDay())
+                .build();
+
         double bmi = calcBmi(signupRequest.getWeight(), signupRequest.getHeight());
+        String bodyActivity = determineBodyActivity(mock);
+        double avgCal = calcAvgCal(bmi, bodyActivity, signupRequest.getWeight());
+        double mealCal = calcMealCal(avgCal);
 
         User user = User.builder()
                 .nickname(signupRequest.getNickname())
@@ -41,7 +53,7 @@ public class UserService {
                 .birth(signupRequest.getBirth().atStartOfDay())
                 .weight(signupRequest.getWeight())
                 .height(signupRequest.getHeight())
-                .totalKcal(null)
+                .totalKcal(avgCal)
                 .bmi(bmi)
                 .build();
 
@@ -54,9 +66,6 @@ public class UserService {
                 .dy_md_act_mn(signupRequest.getModerateIntensityActivity().getMinutesPerDay())
                 .user(user)
                 .build();
-
-        user.setTotalKcal(calcAvgCal(bmi,determineBodyActivity(userExerciseDto),user.getWeight()));
-        user.setMealKcal(calcMealCal(user.getTotalKcal()));
 
         UserExercise userExercise = userExerciseRepository.save(userExerciseDto);
 

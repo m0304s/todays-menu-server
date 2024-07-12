@@ -46,11 +46,9 @@ public class User extends BaseEntity {
     @Column(name = "weight")
     private Double weight;
 
-    @Setter
     @Column(name = "total_kcal")
     private Double totalKcal;
 
-    @Setter
     @Column(name = "meal_kcal")
     private Double mealKcal;
 
