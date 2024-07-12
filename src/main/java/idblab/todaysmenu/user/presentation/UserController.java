@@ -1,8 +1,8 @@
-package idblab.todaysmenu.controller;
+package idblab.todaysmenu.user.presentation;
 
-import idblab.todaysmenu.domain.dto.SignupRequestDto;
-import idblab.todaysmenu.domain.entity.User;
-import idblab.todaysmenu.service.UserService;
+import idblab.todaysmenu.user.dto.command.SignupRequestDto;
+import idblab.todaysmenu.user.domain.User;
+import idblab.todaysmenu.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
