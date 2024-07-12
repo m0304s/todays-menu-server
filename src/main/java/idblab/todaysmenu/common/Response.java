@@ -1,12 +1,12 @@
 package idblab.todaysmenu.common;
 
-import idblab.todaysmenu.domain.enums.ResponseType;
+import idblab.todaysmenu.common.enums.ResponseType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static idblab.todaysmenu.domain.enums.ResponseType.FAILURE;
-import static idblab.todaysmenu.domain.enums.ResponseType.SUCCESS;
+import static idblab.todaysmenu.common.enums.ResponseType.FAILURE;
+import static idblab.todaysmenu.common.enums.ResponseType.SUCCESS;
 
 @Getter
 @NoArgsConstructor

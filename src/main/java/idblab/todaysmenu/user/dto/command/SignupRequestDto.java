@@ -1,5 +1,6 @@
-package idblab.todaysmenu.domain.dto;
+package idblab.todaysmenu.user.dto.command;
 
+import idblab.todaysmenu.user.domain.Gender;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Data
 public class SignupRequestDto {
-    private String username;
+    private String nickname;
     private String account;
     private String password;
     private String confirmPassword;
@@ -27,11 +28,5 @@ public class SignupRequestDto {
         private int timesPerWeek;
         private int hoursPerDay;
         private int minutesPerDay;
-    }
-
-    public enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
     }
 }

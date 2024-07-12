@@ -9,7 +9,6 @@ spring:
     url: jdbc:mariadb://gpuidblab.kro.kr:3306/todaysmenudb
     username: idblab
     password: idblab1145
-    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: create

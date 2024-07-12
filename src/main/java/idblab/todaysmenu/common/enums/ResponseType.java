@@ -1,4 +1,4 @@
-package idblab.todaysmenu.domain.enums;
+package idblab.todaysmenu.common.enums;
 
 public enum ResponseType {
     SUCCESS(200),
