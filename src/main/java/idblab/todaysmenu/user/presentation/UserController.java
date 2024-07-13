@@ -5,10 +5,7 @@ import idblab.todaysmenu.user.domain.User;
 import idblab.todaysmenu.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,5 +17,9 @@ public class UserController {
     public ResponseEntity<User> registerUser(@RequestBody SignupRequestDto signupRequest) {
         User registeredUser = userService.registerUser(signupRequest);
         return ResponseEntity.ok(registeredUser);
+    }
+    @DeleteMapping("/delete/{userId}")
+    public void deleteUser(@PathVariable(value = "userId") String userAccount) {
+        userService.deleteUser(userAccount);
     }
 }

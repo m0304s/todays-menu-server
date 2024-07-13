@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -55,6 +56,10 @@ public class User extends BaseEntity {
     @Column(name = "bmi")
     private Double bmi;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(unique = true, nullable = false, length = 30)
+    @OneToMany(mappedBy = "userAllergyId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAllergy> userAllergies;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private UserExercise userExercise;
 }

@@ -15,6 +15,7 @@ public class Allergy {
     @Column(name = "allergyId", updatable = false, nullable = false)
     private Long allergyId;
 
+    @Column(name = "allergyName",nullable = false)
     private String allergyName;
 
     @ManyToOne

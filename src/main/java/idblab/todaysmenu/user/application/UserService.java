@@ -1,10 +1,14 @@
 package idblab.todaysmenu.user.application;
 
 
+import idblab.todaysmenu.allergy.repository.AllergyRepository;
+import idblab.todaysmenu.allergy.repository.AllergySetRepository;
 import idblab.todaysmenu.user.domain.Gender;
+import idblab.todaysmenu.user.domain.UserAllergy;
 import idblab.todaysmenu.user.domain.UserExercise;
 import idblab.todaysmenu.user.dto.command.SignupRequestDto;
 import idblab.todaysmenu.user.domain.User;
+import idblab.todaysmenu.user.repository.UserAllergyRepository;
 import idblab.todaysmenu.user.repository.UserExerciseRepository;
 import idblab.todaysmenu.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,6 +28,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserExerciseRepository userExerciseRepository;
+    private final AllergyRepository allergyRepository;
+    private final UserAllergyRepository userAllergyRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -43,6 +51,7 @@ public class UserService {
         String bodyActivity = determineBodyActivity(mock);
         double avgCal = calcAvgCal(bmi, bodyActivity, signupRequest.getWeight());
         double mealCal = calcMealCal(avgCal);
+        System.out.println("mealCal = " + mealCal);
 
         User user = User.builder()
                 .nickname(signupRequest.getNickname())
@@ -54,6 +63,7 @@ public class UserService {
                 .weight(signupRequest.getWeight())
                 .height(signupRequest.getHeight())
                 .totalKcal(avgCal)
+                .mealKcal(mealCal)
                 .bmi(bmi)
                 .build();
 
@@ -67,9 +77,29 @@ public class UserService {
                 .user(user)
                 .build();
 
-        UserExercise userExercise = userExerciseRepository.save(userExerciseDto);
+        userExerciseRepository.save(userExerciseDto);
+        userRepository.save(user);
 
-        return userRepository.save(user);
+        signupRequest.getAllergies().stream()
+                .map(allergy -> {
+                    System.out.println("allergy = " + allergy);
+                    return allergyRepository.findByAllergyName(allergy)
+                            .orElseThrow(() -> new IllegalArgumentException("Allergy not found: " + allergy));
+                })
+                .forEach(allergy -> {
+                    UserAllergy userAllergy = UserAllergy.builder()
+                            .allergy(allergy)
+                            .user(user)
+                            .build();
+                    userAllergyRepository.save(userAllergy);
+                });
+
+        return user;
+    }
+
+    @Transactional
+    public void deleteUser(String userAccount){
+        userRepository.delete(userRepository.findByAccount(userAccount).get());
     }
 
     /**
