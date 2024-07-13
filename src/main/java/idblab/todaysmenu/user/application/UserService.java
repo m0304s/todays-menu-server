@@ -51,7 +51,6 @@ public class UserService {
         String bodyActivity = determineBodyActivity(mock);
         double avgCal = calcAvgCal(bmi, bodyActivity, signupRequest.getWeight());
         double mealCal = calcMealCal(avgCal);
-        System.out.println("mealCal = " + mealCal);
 
         User user = User.builder()
                 .nickname(signupRequest.getNickname())
@@ -82,7 +81,6 @@ public class UserService {
 
         signupRequest.getAllergies().stream()
                 .map(allergy -> {
-                    System.out.println("allergy = " + allergy);
                     return allergyRepository.findByAllergyName(allergy)
                             .orElseThrow(() -> new IllegalArgumentException("Allergy not found: " + allergy));
                 })
